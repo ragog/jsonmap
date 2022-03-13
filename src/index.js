@@ -60,7 +60,7 @@ app.get('/items/:id', async (req, res) => {
 	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
 
 	const item = await Item.findOne({ id: req.params.id })
-	if (item.owner === ownerUser.id) {
+	if (item?.owner === ownerUser.id) {
 		res.send({ id: item.id, body: item.body });
 		return
 	}
