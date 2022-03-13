@@ -1,6 +1,6 @@
 const User = require("../model/user.js");
 
-const preExec = async function (req, res, next) {
+const authMiddleware = async function (req, res, next) {
   console.log(`Request received: ${req.method} ${req.url}`);
 
   const authHeader = req.headers.authorization;
@@ -28,4 +28,4 @@ const preExec = async function (req, res, next) {
   }
 };
 
-module.exports = preExec;
+module.exports = authMiddleware;
