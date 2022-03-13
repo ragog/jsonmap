@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(preExec);
 
 app.get('/', (req, res) => {
-	res.send('Hello World!');
+	res.send('You have reached restore!');
 });
 
 app.post('/items', async (req, res) => {
@@ -32,7 +32,7 @@ app.post('/items', async (req, res) => {
 app.get('/items/:id', async (req, res) => {
 
 	if (!uuid.validate(req.params.id)) {
-		res.status(400).send('that looks fucked up')
+		res.status(400).send('Bad request')
 		return
 	}
 
