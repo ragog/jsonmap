@@ -1,4 +1,4 @@
-const Auth = require("../model/auth.js");
+const User = require("../model/user.js");
 
 const preExec = async function (req, res, next) {
   console.log(`Request received: ${req.method} ${req.url}`);
@@ -15,7 +15,7 @@ const preExec = async function (req, res, next) {
 
   if (authHeader.startsWith("Bearer ")) {
     token = authHeader.replace("Bearer ", "");
-    Auth.find({ apikey: token }).countDocuments((error, count) => {
+    User.find({ apikey: token }).countDocuments((error, count) => {
       if (count === 0) {
         console.log("Received request with unknown API key - ignoring");
         res.status(401).send('Unknown API key');
