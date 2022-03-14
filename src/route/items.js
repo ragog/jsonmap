@@ -1,21 +1,13 @@
-const express = require('express');
-const Item = require('./model/item')
-const User = require('./model/user')
-const preExec = require("./middleware/middleware.js");
-const mongoose = require('./db/mongoose')
+const express = require("express");
+const Item = require("../model/item.js");
+const User = require("../model/user.js")
+const router = new express.Router();
+const preExec = require("../middleware/middleware.js");
 const uuid = require('uuid');
 
-const app = express();
-const port = process.env.PORT || 3000;
+router.use(preExec);
 
-app.use(express.json())
-app.use(preExec);
-
-app.get('/', (req, res) => {
-	res.send('You have reached restore!');
-});
-
-app.post('/items', async (req, res) => {
+router.post('/v1/items', async (req, res) => {
 	
 	if (!uuid.validate(req.body.id)) {
 		req.body.id = uuid.v4()
@@ -34,22 +26,7 @@ app.post('/items', async (req, res) => {
 	
 });
 
-app.post('/users', async (req, res) => {
-	
-	if (!uuid.validate(req.body.id)) {
-		req.body.id = uuid.v4()
-	}
-	
-	await new User({
-		id: req.body.id,
-		apikey: req.body.apikey
-	}).save();
-
-	res.send(req.body.id)
-	
-});
-
-app.get('/items/:id', async (req, res) => {
+router.get('/v1/items/:id', async (req, res) => {
 
 	if (!uuid.validate(req.params.id)) {
 		res.status(400).send('Bad request')
@@ -69,6 +46,4 @@ app.get('/items/:id', async (req, res) => {
 
 });
 
-app.listen(port, () => {
-	console.log(`restore listening on port ${port}`);
-});
+module.exports = router;
