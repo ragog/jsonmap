@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>restore</title>
-  <style>
-  </style>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<title>restore</title>
+		<style></style>
+	</head>
+	<body>
+		<div class="container">
+			Welcome to <a href="https://github.com/ragog/restore">restore</a>!
+			<div>Accounts are free. Request one via email:</div>
 
-  <div class="container">
-      Welcome to restore!
-  </div>
-    
-</body>
+			<form action="https://formspree.io/f/mrgjledv" method="POST">
+				<label>
+					Your email:
+					<input type="email" name="email" />
+				</label>
+				<div>
+					<label>
+						Your message:
+						<textarea name="message"></textarea>
+					</label>
+				</div>
+				<!-- your other form fields go here -->
+				<button type="submit">Send</button>
+			</form>
+		</div>
+	</body>
 </html>
