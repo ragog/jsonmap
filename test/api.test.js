@@ -23,7 +23,7 @@ test('creates item', async () => {
 		headers: { Authorization: `Bearer ${apiKeyValid}` },
 		data: {
 			key: testGeneratedItemKey,
-			body: testObject
+			value: testObject
 		},
 	});
 
@@ -41,7 +41,7 @@ test('retrieves own item', async () => {
 	expect(response.status).toBe(200);
 	expect(response.data).toEqual({
 		key: testItemKey,
-		body: testObject,
+		value: testObject,
 	});
 });
 

@@ -13,7 +13,7 @@ router.get('/v1/items', async (req, res) => {
 	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
 
 	const items = await Item.find({ owner: ownerUser.id })
-	const formatItems = items.map((x) => ({ id: x.id, body: x.body, owner: x.owner }))
+	const formatItems = items.map((x) => ({ id: x.id, value: x.body, owner: x.owner }))
 
 	res.send(formatItems);
 
@@ -31,7 +31,7 @@ router.post('/v1/items', async (req, res) => {
 	await new Item({
 		id: uuid.v4(),
 		key: req.body.key,
-		body: req.body.body,
+		value: req.body.value,
 		owner: ownerUser.id
 	}).save();
 
@@ -51,7 +51,7 @@ router.get('/v1/items/:key', async (req, res) => {
 
 	const item = await Item.findOne({ key: req.params.key })
 	if (item?.owner === ownerUser.id) {
-		res.send({ key: item.key, body: item.body });
+		res.send({ key: item.key, value: item.value });
 		return
 	}
 

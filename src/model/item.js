@@ -9,7 +9,7 @@ const Item = mongoose.model("Item", {
     type: String,
     required: true,
   },
-  body: {
+  value: {
     type: Object,
     required: true,
   }, // validate(value){ ... } for custom validation; use together with npm package 'validator'
