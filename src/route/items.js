@@ -7,25 +7,6 @@ const uuid = require('uuid');
 
 router.use(preExec);
 
-router.post('/v1/items', async (req, res) => {
-	
-	if (!uuid.validate(req.body.id)) {
-		req.body.id = uuid.v4()
-	}
-
-	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
-	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
-	
-	await new Item({
-		id: req.body.id,
-		body: req.body.body,
-		owner: ownerUser.id
-	}).save();
-
-	res.send(req.body.id)
-	
-});
-
 router.get('/v1/items', async (req, res) => {
 
 	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
@@ -38,9 +19,29 @@ router.get('/v1/items', async (req, res) => {
 
 });
 
-router.get('/v1/items/:id', async (req, res) => {
+router.post('/v1/items', async (req, res) => {
+	
+	if (!req.body.key) {
+		req.body.key = uuid.v4()
+	}
 
-	if (!uuid.validate(req.params.id)) {
+	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
+	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
+
+	await new Item({
+		id: uuid.v4(),
+		key: req.body.key,
+		body: req.body.body,
+		owner: ownerUser.id
+	}).save();
+
+	res.send(req.body.key)
+	
+});
+
+router.get('/v1/items/:key', async (req, res) => {
+
+	if (!req.params.key) {
 		res.status(400).send('Bad request')
 		return
 	}
@@ -48,9 +49,9 @@ router.get('/v1/items/:id', async (req, res) => {
 	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
 	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
 
-	const item = await Item.findOne({ id: req.params.id })
+	const item = await Item.findOne({ key: req.params.key })
 	if (item?.owner === ownerUser.id) {
-		res.send({ id: item.id, body: item.body });
+		res.send({ key: item.key, body: item.body });
 		return
 	}
 

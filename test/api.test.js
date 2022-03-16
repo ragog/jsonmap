@@ -1,8 +1,7 @@
 const axios = require('axios');
-const uuid = require('uuid');
 
 const apiKeyValid = process.env.API_KEY_VALID;
-const testItemId = process.env.TEST_ITEM_ID;
+const testItemKey = process.env.TEST_ITEM_KEY;
 const testItemOtherOwnerId = process.env.TEST_ITEM_OTHER_OWNER_ID;
 
 const testObject = {
@@ -16,32 +15,32 @@ const testObject = {
 // });
 
 test('creates item', async () => {
-	const testGeneratedItemId = uuid.v4();
+	const testGeneratedItemKey = "test_item_key";
 
 	const response = await axios({
 		method: 'post',
 		url: 'http://localhost:3000/api/v1/items',
 		headers: { Authorization: `Bearer ${apiKeyValid}` },
 		data: {
-			id: testGeneratedItemId,
-			body: testObject,
+			key: testGeneratedItemKey,
+			body: testObject
 		},
 	});
 
 	expect(response.status).toBe(200);
-	expect(response.data).toBe(testGeneratedItemId);
+	expect(response.data).toBe(testGeneratedItemKey);
 });
 
 test('retrieves own item', async () => {
 	const response = await axios({
 		method: 'get',
-		url: `http://localhost:3000/api/v1/items/${testItemId}`,
+		url: `http://localhost:3000/api/v1/items/${testItemKey}`,
 		headers: { Authorization: `Bearer ${apiKeyValid}` },
 	});
 
 	expect(response.status).toBe(200);
 	expect(response.data).toEqual({
-		id: testItemId,
+		key: testItemKey,
 		body: testObject,
 	});
 });

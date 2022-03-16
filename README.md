@@ -5,7 +5,7 @@ restore is a simple REST API which allows you to write and read JSON items of yo
 ## How to use it
 
 A `POST /items` saves an item, e.g. with [httpie](https://httpie.io/):
-```echo -n '{"id": "", "body":"{ glossary: { title: 'example glossary' } }"}' | http POST https://json-restore.herokuapp.com/items Authorization:'Bearer <API_KEY>'```
+```echo -n '{"body": { "glossary": { "title": "example glossary" } }}' | http POST https://json-restore.herokuapp.com/items Authorization:'Bearer <API_KEY>'```
 
 A `GET /items/:id` retrieves an item, e.g.:
 ```http https://json-restore.herokuapp.com/items/<ITEM_ID> Authorization:'Bearer <API_KEY>'```

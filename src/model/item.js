@@ -5,6 +5,10 @@ const Item = mongoose.model("Item", {
     type: String,
     required: true,
   },
+  key: {
+    type: String,
+    required: true,
+  },
   body: {
     type: Object,
     required: true,
