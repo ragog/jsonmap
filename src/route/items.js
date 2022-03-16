@@ -26,6 +26,18 @@ router.post('/v1/items', async (req, res) => {
 	
 });
 
+router.get('/v1/items', async (req, res) => {
+
+	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
+	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
+
+	const items = await Item.find({ owner: ownerUser.id })
+	const formatItems = items.map((x) => ({ id: x.id, body: x.body, owner: x.owner }))
+
+	res.send(formatItems);
+
+});
+
 router.get('/v1/items/:id', async (req, res) => {
 
 	if (!uuid.validate(req.params.id)) {
