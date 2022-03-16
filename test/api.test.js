@@ -14,6 +14,19 @@ const testObject = {
 // 	expect(async () => await axios.get('http://localhost:3000')).rejects.toThrow('Request failed with status code 401');
 // });
 
+test('retrieves items', async () => {
+
+	const response = await axios({
+		method: 'get',
+		url: 'http://localhost:3000/api/v1/items',
+		headers: { Authorization: `Bearer ${apiKeyValid}` },
+	});
+
+	expect(response.status).toBe(200);
+	expect(response.data).toEqual(expect.any(Array));
+
+});
+
 test('creates item', async () => {
 	const testGeneratedItemKey = "test_item_key";
 
