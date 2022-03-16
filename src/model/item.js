@@ -12,7 +12,7 @@ const Item = mongoose.model("Item", {
   value: {
     type: Object,
     required: true,
-  }, // validate(value){ ... } for custom validation; use together with npm package 'validator'
+  },
   owner: {
     type: String,
     required: true

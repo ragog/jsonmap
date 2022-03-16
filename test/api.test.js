@@ -10,10 +10,6 @@ const testObject = {
 	},
 };
 
-// test('unauthenticated request fails', async () => {
-// 	expect(async () => await axios.get('http://localhost:3000')).rejects.toThrow('Request failed with status code 401');
-// });
-
 test('retrieves items', async () => {
 
 	const response = await axios({
