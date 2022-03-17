@@ -4,13 +4,16 @@ const User = require("../model/user.js")
 const router = new express.Router();
 const preExec = require("../middleware/middleware.js");
 const uuid = require('uuid');
+const crypto = require('crypto')
+const getHashFromRequest = require('../helper/helper.js')
 
 router.use(preExec);
 
 router.get('/v1/items', async (req, res) => {
 
-	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
-	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
+	const hashedToken = getHashFromRequest(req)
+
+	const ownerUser = await User.findOne({ apikey: hashedToken })
 
 	const items = await Item.find({ owner: ownerUser.id })
 	const formatItems = items.map((x) => ({ id: x.id, value: x.body, owner: x.owner }))
@@ -25,8 +28,9 @@ router.post('/v1/items', async (req, res) => {
 		req.body.key = uuid.v4()
 	}
 
-	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
-	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
+    const hashedToken = getHashFromRequest(req)
+
+	const ownerUser = await User.findOne({ apikey: hashedToken })
 
 	await new Item({
 		id: uuid.v4(),
@@ -46,11 +50,12 @@ router.get('/v1/items/:key', async (req, res) => {
 		return
 	}
 
-	const apikeyFromRequest = req.headers.authorization.replace("Bearer ", "");
-	const ownerUser = await User.findOne({ apikey: apikeyFromRequest })
+	const hashedToken = getHashFromRequest(req)
+
+	const ownerUser = await User.findOne({ apikey: hashedToken })
 
 	const item = await Item.findOne({ key: req.params.key })
-	if (item?.owner === ownerUser.id) {
+	if (item?.owner === ownerUser?.id) {
 		res.send({ key: item.key, value: item.value });
 		return
 	}

@@ -1,5 +1,6 @@
 const express = require('express');
 const itemsRouter = require("./route/items.js");
+const usersRouter = require("./route/users.js");
 const path = require('path');
 require('./db/mongoose')
 
@@ -8,6 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json())
 app.use('/api', itemsRouter)
+app.use('/api', usersRouter)
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '/static/index.html'));

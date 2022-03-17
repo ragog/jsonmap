@@ -1,7 +1,14 @@
 const User = require("../model/user.js");
+const crypto = require("crypto")
+const getHashFromRequest = require('../helper/helper.js')
 
 const authMiddleware = async function (req, res, next) {
   console.log(`Request received: ${req.method} ${req.url}`);
+
+  if (req.url.includes('/users')) {
+    next()
+    return;
+  }
 
   const authHeader = req.headers.authorization;
 
@@ -11,11 +18,10 @@ const authMiddleware = async function (req, res, next) {
     return;
   }
 
-  let token;
-
   if (authHeader.startsWith("Bearer ")) {
-    token = authHeader.replace("Bearer ", "");
-    User.find({ apikey: token }).countDocuments((error, count) => {
+    const hashedToken = getHashFromRequest(req)
+
+    User.find({ apikey: hashedToken }).countDocuments((error, count) => {
       if (count === 0) {
         console.log("Received request with unknown API key - ignoring");
         res.status(401).send('Unknown API key');

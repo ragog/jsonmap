@@ -3,12 +3,27 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>restore</title>
-		<style></style>
+		<script type="text/javascript">
+			async function fetchApiKey() {
+				let response = await fetch('/api/v1/users', { method: 'POST' });
+				let data = await response.json();
+				document.querySelector('#api_key').textContent = data.id;
+			}
+		</script>
 	</head>
 	<body>
 		<div class="container">
-			Welcome to <a href="https://github.com/ragog/restore">restore</a>!
-			<div>Accounts are free. Request one via email:</div>
+			Welcome to restore!
+			<p>Generate your API key below and <a href="https://github.com/ragog/restore">read the docs</a> to get started.</p>
+
+			<div>Your API key:</div>
+			<div id="api_key"></div>
+
+			<form name="key-form" action="javascript:fetchApiKey()">
+				<button type="submit">Send</button>
+			</form>
+
+			<div>Got any questions or requests? Get in touch:</div>
 
 			<form action="https://formspree.io/f/mrgjledv" method="POST">
 				<label>
@@ -24,6 +39,9 @@
 				<!-- your other form fields go here -->
 				<button type="submit">Send</button>
 			</form>
+
+			⚠ do not use restore to save sensitive data of any kind ⚠
+
 		</div>
 	</body>
 </html>
