@@ -32,6 +32,12 @@ router.post('/v1/items', async (req, res) => {
 
 	const ownerUser = await User.findOne({ apikey: hashedToken })
 
+	const existingItemWithKey = await Item.findOne({ key: req.body.key })
+	if (existingItemWithKey) {
+		res.status(400).send('Bad request: key already in use')
+		return
+	}
+
 	try {
 		await new Item({
 			id: uuid.v4(),
