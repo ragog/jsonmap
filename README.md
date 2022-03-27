@@ -1,16 +1,41 @@
 # jsonmap
 
-jsonmap is a simple REST API which allows you to write and read JSON items of your choice.
+jsonmap is a simple REST API which allows you to write JSON payloads of your choice and retrieve them later.
 
-## How to use it
+> **WARNING**: jsonmap is not meant for credentials storage - do not use it to save confidential data
 
-A `POST /items` saves an item, e.g. with [httpie](https://httpie.io/):
-```echo -n '{"body": { "glossary": { "title": "example glossary" } }}' | http POST https://jsonmap.site/items Authorization:'Bearer <API_KEY>'```
+## Getting started
 
-A `GET /items/:id` retrieves an item, e.g.:
-```http https://jsonmap.site/items/<ITEM_ID> Authorization:'Bearer <API_KEY>'```
+To get started, get your API key from [jsonmap.site](https://jsonmap.site) and store it somewhere safe - you will not be shown your API key again.
 
-## How to run locally
+Now you can store your first item to retrieve at a later time. An item is identified by a `key` and contains a `value`:
+
+```json
+{
+    "key": "my-first-item",
+    "value": { 
+        "note": {
+            "title": "this is an example note"
+        }
+    }
+}
+```
+
+Let's create the above item by first saving the above in a file, say `item.json`, then passing that file into our API call:
+
+```bash
+$ http POST https://jsonmap.site/api/v1/items Authorization:'Bearer <MY_API_KEY>' < item.json
+```
+
+> **NOTE:** if no `key` is set, one will be automatically generated and returned as the response body. 
+
+We can then retrieve this item when needed:
+
+```bash
+http https://jsonmap.site/api/v1/items/<ITEM_ID> Authorization:'Bearer <MY_API_KEY>'
+```
+
+## How to run locally for development
 
 clone & cd, then
 
