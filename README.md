@@ -1,6 +1,6 @@
-# restore
+# RESTore
 
-restore is a simple REST API which allows you to write and read JSON items of your choice.
+RESTore is a simple REST API which allows you to write and read JSON items of your choice.
 
 ## How to use it
 
