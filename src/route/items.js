@@ -32,13 +32,18 @@ router.post('/v1/items', async (req, res) => {
 
 	const ownerUser = await User.findOne({ apikey: hashedToken })
 
-	await new Item({
-		id: uuid.v4(),
-		key: req.body.key,
-		value: req.body.value,
-		owner: ownerUser.id
-	}).save();
-
+	try {
+		await new Item({
+			id: uuid.v4(),
+			key: req.body.key,
+			value: req.body.value,
+			owner: ownerUser.id
+		}).save();
+	} catch (error) {
+		res.status(400).send('Bad request: '+ error)
+		return
+	}
+	
 	res.send(req.body.key)
 	
 });
