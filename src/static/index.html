@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<title>restore</title>
+		<title>jsonmap</title>
 		<script type="text/javascript">
 			async function fetchApiKey() {
 				let response = await fetch('/api/v1/users', { method: 'POST' });
@@ -13,14 +13,14 @@
 	</head>
 	<body>
 		<div class="container">
-			Welcome to RESTore!
+			Welcome to jsonmap!
 			<p>Generate your API key below and <a href="https://github.com/ragog/RESTore">read the docs</a> to get started.</p>
 
-			<div>Your API key:</div>
+			<div>Your API key: (please store your key safely - it won't be shown again)</div>
 			<div id="api_key"></div>
 
 			<form name="key-form" action="javascript:fetchApiKey()">
-				<button type="submit">Send</button>
+				<button type="submit">Generate key</button>
 			</form>
 
 			<div>Got any questions or requests? Get in touch:</div>
@@ -40,7 +40,7 @@
 				<button type="submit">Send</button>
 			</form>
 
-			⚠ do not use RESTore to save sensitive data of any kind ⚠
+			⚠ do not use jsonmap to save sensitive data of any kind ⚠
 
 		</div>
 	</body>
