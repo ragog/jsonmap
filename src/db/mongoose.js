@@ -8,4 +8,6 @@ mongoose.connect(dbConnectionURL + dbPath, {
   useUnifiedTopology: true,
 });
 
+console.log('DB connection established')
+
 module.exports = mongoose;
