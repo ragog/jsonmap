@@ -75,4 +75,26 @@ router.get('/v1/items/:key', async (req, res) => {
 
 });
 
+router.delete('/v1/items/:key', async (req, res) => {
+
+	if (!req.params.key) {
+		res.status(400).send('Bad request')
+		return
+	}
+
+	const hashedToken = getHashFromRequest(req)
+
+	const ownerUser = await User.findOne({ apikey: hashedToken })
+
+	const item = await Item.findOne({ key: req.params.key })
+	if (item?.owner === ownerUser?.id) {
+		await Item.deleteOne({ key: req.params.key })
+		res.status(204).send()
+		return
+	}
+
+	res.status(404).send("No such item found")
+
+});
+
 module.exports = router;

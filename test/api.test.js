@@ -82,3 +82,15 @@ test('cannot retrieve item from different owner', async () => {
 		}).rejects.toThrow('Request failed with status code 404');
 	});
 });
+
+test('deletes own item', async () => {
+	expect(async () => {
+		const response = await axios({
+			method: 'delete',
+			url: `http://localhost:3000/api/v1/items/${testGeneratedItemKey}`,
+			headers: { Authorization: `Bearer ${apiKeyValid}` },
+		})
+
+		expect(response.status).toBe(200);
+	});
+});
