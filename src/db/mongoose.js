@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const dbConnectionURL = process.env.DB_URL || "mongodb://127.0.0.1:27017";
-const dbPath = "/restore_db";
+const dbConnectionURL = process.env.DB_URL || "mongodb://127.0.0.1:27017/admin";
 
-mongoose.connect(dbConnectionURL + dbPath, {
+mongoose.connect(dbConnectionURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
