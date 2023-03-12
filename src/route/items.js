@@ -19,25 +19,24 @@ router.get('/v1/items', async (req, res) => {
 	res.send(formatItems);
 });
 
-router.post('/v1/items', async (req, res) => {
-	if (!req.body.key) {
-		req.body.key = uuid.v4();
+router.put('/v1/items/:key', async (req, res) => {
+	if (!req.params.key) {
+		res.status(400).send('Bad request: item key must be defined');
 	}
 
 	const hashedToken = getHashFromRequest(req);
 
 	const ownerUser = await User.findOne({ apikey: hashedToken });
 
-	const existingItemWithKey = await Item.findOne({ key: req.body.key });
+	const existingItemWithKey = await Item.findOne({ key: req.params.key });
 	if (existingItemWithKey) {
-		res.status(400).send('Bad request: key already in use');
-		return;
+		await Item.deleteOne({ key: req.params.key });
 	}
 
 	try {
 		await new Item({
 			id: uuid.v4(),
-			key: req.body.key,
+			key: req.params.key,
 			value: req.body.value,
 			owner: ownerUser.id,
 		}).save();
@@ -46,7 +45,7 @@ router.post('/v1/items', async (req, res) => {
 		return;
 	}
 
-	res.send(req.body.key);
+	res.send(req.params.key);
 });
 
 router.get('/v1/items/:key', async (req, res) => {
