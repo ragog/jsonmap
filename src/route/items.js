@@ -16,7 +16,7 @@ router.get('/v1/items', async (req, res) => {
 	const ownerUser = await User.findOne({ apikey: hashedToken })
 
 	const items = await Item.find({ owner: ownerUser.id })
-	const formatItems = items.map((x) => ({ key: x.key, value: x.body }))
+	const formatItems = items.map((x) => ({ key: x.key, value: x.value }))
 
 	res.send(formatItems);
 
