@@ -37,7 +37,7 @@ router.put('/v1/items/:key', async (req, res) => {
 		await new Item({
 			id: uuid.v4(),
 			key: req.params.key,
-			value: req.body.value,
+			value: req.body,
 			owner: ownerUser.id,
 		}).save();
 	} catch (error) {
