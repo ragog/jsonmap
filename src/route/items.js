@@ -28,7 +28,7 @@ router.put('/v1/items/:key', async (req, res) => {
 
 	const ownerUser = await User.findOne({ apikey: hashedToken });
 
-	const existingItemWithKey = await Item.findOne({ key: req.params.key });
+	const existingItemWithKey = await Item.findOne({ key: req.params.key, owner: ownerUser.id });
 	if (existingItemWithKey) {
 		await Item.deleteOne({ key: req.params.key });
 	}
