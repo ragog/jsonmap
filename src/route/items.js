@@ -58,13 +58,14 @@ router.get('/v1/items/:key', async (req, res) => {
 
 	const ownerUser = await User.findOne({ apikey: hashedToken });
 
-	const item = await Item.findOne({ key: req.params.key });
-	if (item?.owner === ownerUser?.id) {
-		res.send(item.value);
+	const item = await Item.findOne({ key: req.params.key, owner: ownerUser.id });
+	if (!item) {
+		res.status(404).send('No such item found');
 		return;
 	}
 
-	res.status(404).send('No such item found');
+	res.send(item.value);
+	
 });
 
 router.delete('/v1/items/:key', async (req, res) => {
