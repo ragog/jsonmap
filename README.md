@@ -38,9 +38,13 @@ All API endpoints require authentication via Bearer token:
 
 `Authorization: 'Bearer <MY_API_KEY>'`
 
+The base URL for the API is:
+
+`https://jsonmap.site/api`
+
 ### Create item
 
-`PUT https://jsonmap.site/api/v1/items/:key`
+`PUT /v1/items/:key`
 
 #### Path params
 
@@ -50,31 +54,97 @@ All API endpoints require authentication via Bearer token:
 
 * the content of the item in JSON format
 
+#### Example
+
+```bash
+$ http PUT https://jsonmap.site/api/v1/items/my-first-item Authorization:'Bearer <MY_API_KEY>' < item.json
+```
+
+Where `item.json` could be:
+
+```json
+{
+	"name": "dodge charger 2.2",
+	"miles_per_Gallon": 36,
+	"cylinders": 4,
+	"displacement": 135,
+	"horsepower": 84,
+	"weight_in_lbs": 2370,
+	"acceleration": 13,
+	"year": "1982-01-01",
+	"origin": "USA"
+}
+```
+
 ### Retrieve item
 
-`GET https://jsonmap.site/api/v1/items/:key`
+`GET /v1/items/:key`
 
 #### Path params
 
 * key: the item's unique key
+
+#### Example
+
+```bash
+$ http https://jsonmap.site/api/v1/items/my-first-item Authorization:'Bearer <MY_API_KEY>'
+```
 
 ### Retrieve all items
 
-`GET https://jsonmap.site/api/v1/items`
+`GET /v1/items`
+
+ Authorization:'Bearer <MY_API_KEY>`
+
+#### Example
+
+```bash
+$ http https://jsonmap.site/api/v1/items Authorization:'Bearer <MY_API_KEY>'
+```
+
+```json
+[
+    {
+        "key": "dodge-charger",
+        "value": {
+            "acceleration": 13,
+            "cylinders": 4,
+            "displacement": 135,
+            "horsepower": 84,
+            "miles_per_Gallon": 36,
+            "name": "dodge charger 2.2",
+            "origin": "USA",
+            "weight_in_lbs": 2370,
+            "year": "1982-01-01"
+        }
+    },
+    {
+        "key": "my-first-item",
+        "value": {
+            "note": {
+                "title": "this is an example note"
+            }
+        }
+    }
+]
+```
 
 ### Remove item
 
-`DELETE https://jsonmap.site/api/v1/items/:key`
+`DELETE /v1/items/:key`
 
 #### Path params
 
 * key: the item's unique key
+
+#### 
 
 ## How to run locally for development
 
 clone & cd, then
 
 ```
+export DB_URL=path_to_your_local_mongodb
 npm i
 npm run dev
 ```
