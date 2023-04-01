@@ -26,37 +26,14 @@ test('creates item', async () => {
 	testGeneratedItemKey = uuid.v4();
 
 	const response = await axios({
-		method: 'post',
-		url: 'http://localhost:3000/api/v1/items',
+		method: 'put',
+		url: `http://localhost:3000/api/v1/items/${testGeneratedItemKey}`,
 		headers: { Authorization: `Bearer ${apiKeyValid}` },
-		data: {
-			key: testGeneratedItemKey,
-			value: testObject,
-		},
+		data: testObject
 	});
 
 	expect(response.status).toBe(200);
 	expect(response.data).toBe(testGeneratedItemKey);
-});
-
-test('creates item duplicated fails', async () => {
-	const testGeneratedItemKey = 'test_item_key';
-
-	let response
-	try {
-		response = await axios({
-			method: 'post',
-			url: 'http://localhost:3000/api/v1/items',
-			headers: { Authorization: `Bearer ${apiKeyValid}` },
-			data: {
-				key: testGeneratedItemKey,
-				value: testObject,
-			},
-		});
-		
-	} catch(error) {
-		expect(error.response.status).toBe(400);
-	}
 });
 
 test('retrieves own item', async () => {
@@ -67,10 +44,7 @@ test('retrieves own item', async () => {
 	});
 
 	expect(response.status).toBe(200);
-	expect(response.data).toEqual({
-		key: testGeneratedItemKey,
-		value: testObject,
-	});
+	expect(response.data).toEqual(testObject);
 });
 
 test('cannot retrieve item from different owner', async () => {
