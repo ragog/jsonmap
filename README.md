@@ -1,6 +1,8 @@
 # jsonmap
 
-jsonmap is a simple REST API which allows you to write JSON payloads of your choice and retrieve them later.
+![](https://api.checklyhq.com/v1/badges/groups/261335?style=plastic&theme=default)
+
+jsonmap is a simple REST API which allows you to store and retrieve JSON payloads of your choice.
 
 > **WARNING**: jsonmap is not meant for credentials storage - do not use it to save confidential data
 
@@ -24,12 +26,24 @@ Let's create the above item by first saving the above in a file, say `item.json`
 $ http PUT https://jsonmap.site/api/v1/items/my-first-item Authorization:'Bearer <MY_API_KEY>' < item.json
 ```
 
+Or, with cURL:
+
+```bash
+$ curl -X PUT -H "Authorization: Bearer <MY_API_KEY>" -d @item.json https://jsonmap.site/api/v1/items/my-first-item
+```
+
 > **NOTE:** creating a new item with an existing key will overwrite the existing item. 
 
 We can then retrieve this item when needed:
 
 ```bash
 $ http https://jsonmap.site/api/v1/items/<ITEM_ID> Authorization:'Bearer <MY_API_KEY>'
+```
+
+Or, with cURL:
+
+```bash
+$ curl -H "Authorization: Bearer <MY_API_KEY>" https://jsonmap.site/api/v1/items/<ITEM_ID>
 ```
 
 ## API
