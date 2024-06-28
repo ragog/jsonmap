@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-app.use(forceHTTPS)
+if (process.env.DB_URL) { app.use(forceHTTPS) }
 app.use('/api', itemsRouter)
 app.use('/api', usersRouter)
 
