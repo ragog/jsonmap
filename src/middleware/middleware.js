@@ -21,6 +21,11 @@ const authMiddleware = async function (req, res, next) {
   if (authHeader.startsWith("Bearer ")) {
     const hashedToken = getHashFromRequest(req)
 
+    if(process.env.SLOWMO) {
+      const delay = Math.floor(Math.random() * 200) * 10;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
     User.find({ apikey: hashedToken }).countDocuments((error, count) => {
       if (count === 0) {
         console.log("Received request with unknown API key - ignoring");
