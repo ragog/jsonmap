@@ -16,6 +16,11 @@ router.get('/v1/items', async (req, res) => {
 	const items = await Item.find({ owner: ownerUser.id });
 	const formatItems = items.map((x) => ({ key: x.key, value: x.value }));
 
+	if(process.env.SLOWMO) {
+		const delay = Math.floor(Math.random() * 200) * 10;
+		await new Promise(resolve => setTimeout(resolve, delay));
+	}
+
 	res.send(formatItems);
 });
 
